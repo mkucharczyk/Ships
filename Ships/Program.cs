@@ -4,7 +4,7 @@ using Ships;
 
 var gameManager = new GameManager(10);
 
-gameManager.InitializeGame(1, 1);
+gameManager.InitializeGame(2, 1);
 while(!gameManager.IsGameOver())
     gameManager.GameLoop();
 

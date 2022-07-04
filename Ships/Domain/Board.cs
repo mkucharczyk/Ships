@@ -7,7 +7,7 @@ namespace Ships
     {
         public int Size { get; private set; }
         Field[,] Fields { get; set; }
-        List<Ship> Ships;
+        List<Ship> Ships { get; set; };
 
         public bool AllShipsDestroyed()
         {
@@ -30,7 +30,6 @@ namespace Ships
 
             for (int x = 0; x < size; x++)
             {
-
                 for (int y = 0; y < size; y++)
                 {
                     board.Fields[x, y] = new Field();
@@ -50,32 +49,13 @@ namespace Ships
                     throw new ArgumentNullException(nameof(coordinatesString));
 
                 var hitField = Fields[coordinates.X - 1, coordinates.Y - 1];
-                if(hitField.Type == FieldType.Ship)
-                {
-                    hitField.Type = FieldType.ShipHit;
-                    var ship = hitField.Ship;
 
-                    ship.Durabiity--;
-
-                    if (ship.Durabiity == 0)
-                    {
-                        ship.Destroyed = true;
-                        return HitResult.Sink;
-                    }
-                    return HitResult.Hit;
-
-                }
-                if (hitField.Type == FieldType.Empty)
-                {
-                    hitField.Type = FieldType.EmptyHit;
-                    return HitResult.Miss;
-                }
+                return ResolveHitType(hitField);
             }
-            catch (ArgumentException exception)
+            catch (Exception)
             {
-                Console.WriteLine(exception.Message);
+                return HitResult.Invalid;
             }
-            return HitResult.Invalid;
         }
 
         public bool IsShipOnField(Coordinates coordinates)
@@ -83,6 +63,31 @@ namespace Ships
             // -1 because coordinates start from 1
             var field = Fields[coordinates.X - 1, coordinates.Y - 1];
             return field.Ship != null;
+        }
+
+        public HitResult ResolveHitType(Field hitField)
+        {
+            if (hitField.Type == FieldType.Ship)
+            {
+                hitField.Type = FieldType.ShipHit;
+                var ship = hitField.Ship;
+
+                ship.Durabiity--;
+
+                if (ship.Durabiity == 0)
+                {
+                    ship.Destroyed = true;
+                    return HitResult.Sink;
+                }
+                return HitResult.Hit;
+
+            }
+            else if (hitField.Type == FieldType.Empty)
+            {
+                hitField.Type = FieldType.EmptyHit;
+                return HitResult.Miss;
+            }
+            return HitResult.Invalid;
         }
 
         public void PlaceShip(Direction direction, Coordinates coordinates, int length)

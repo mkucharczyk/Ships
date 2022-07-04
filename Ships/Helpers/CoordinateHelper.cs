@@ -23,7 +23,6 @@
         {
             return Convert.ToChar(65 + number);
         }
-
     }
 }
 
