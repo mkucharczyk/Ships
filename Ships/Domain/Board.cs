@@ -7,7 +7,7 @@ namespace Ships
     {
         public int Size { get; private set; }
         Field[,] Fields { get; set; }
-        List<Ship> Ships { get; set; };
+        List<Ship> Ships { get; set; }
 
         public bool AllShipsDestroyed()
         {
@@ -116,7 +116,7 @@ namespace Ships
         {
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.Append(" ");
+            stringBuilder.Append("  ");
             for (int y = 0; y < Size; y++) { 
                 stringBuilder.Append( $"{y + 1} ");
             }
