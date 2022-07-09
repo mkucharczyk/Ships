@@ -17,7 +17,6 @@ namespace Ships.Tests
             Assert.Equal(result.Y, coordinates.Y);
         }
 
-
         public class CoordinatesHelperTestsData : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()

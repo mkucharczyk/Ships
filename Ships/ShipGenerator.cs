@@ -15,18 +15,20 @@
             {
                 var coordinates = direction == Direction.Horizontal ? GenerateCoordinates(board.Size - length, board.Size) : GenerateCoordinates(board.Size, board.Size - length);
                 var collision = false;
-                for (int i = 1; i <= length; i++)
+                for (int i = 0; i < length; i++)
                 {
                     Coordinates newCoordinates;
                     if (direction == Direction.Horizontal)
-                        newCoordinates = new Coordinates(coordinates.X, coordinates.Y + i);
-                    else
+                    {
                         newCoordinates = new Coordinates(coordinates.X + i, coordinates.Y);
+                    }
+                    else
+                        newCoordinates = new Coordinates(coordinates.X, coordinates.Y + i);
                     if (board.IsShipOnField(newCoordinates))
                     {
                         collision = true;
+                        break;
                     }
-                    break;
                 }
                 if (collision)
                     break;
